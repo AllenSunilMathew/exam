@@ -1,0 +1,310 @@
+// Hero.jsx
+
+import React from "react";
+import Header from "./Header";
+import MainLayout from "./MainLayout";
+
+function Hero() {
+  const styles = {
+    hero: {
+      width: "100%",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: "50px",
+      padding: "80px 8%",
+      position: "relative",
+      overflow: "hidden",
+      fontFamily: "'Smooch Sans', sans-serif",
+      flexWrap: "wrap",
+      boxSizing: "border-box",
+    },
+
+    /* VIDEO BACKGROUND */
+    video: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+
+      /* MORE VISIBLE VIDEO */
+      filter: "brightness(0.85) contrast(1.15)",
+      zIndex: -2,
+    },
+
+    overlay: {
+      position: "absolute",
+      inset: 0,
+      background:
+        "linear-gradient(rgba(5,12,22,0.55), rgba(5,12,22,0.7))",
+      zIndex: -1,
+    },
+
+    content: {
+      position: "relative",
+      zIndex: 2,
+      flex: "1 1 600px",
+      color: "white",
+      minWidth: "300px",
+    },
+
+    heading: {
+      fontSize: "clamp(2.5rem, 6vw, 5.5rem)",
+      lineHeight: "1.1",
+      marginBottom: "25px",
+      fontWeight: "700",
+    },
+
+    paragraph: {
+      fontSize: "clamp(1rem, 2vw, 1.5rem)",
+      lineHeight: "1.7",
+      color: "#e0e0e0",
+      maxWidth: "650px",
+      marginBottom: "35px",
+      fontWeight: "300",
+    },
+
+    button: {
+      padding: "16px 34px",
+      background:
+        "linear-gradient(135deg,#007bff,#00bfff)",
+      border: "none",
+      borderRadius: "12px",
+      color: "white",
+      fontSize: "1.1rem",
+      fontWeight: "700",
+      cursor: "pointer",
+      boxShadow:
+        "0 8px 25px rgba(0,123,255,0.35)",
+      transition: "0.3s ease",
+    },
+
+    trustBar: {
+      marginTop: "45px",
+      display: "flex",
+      alignItems: "center",
+      gap: "25px",
+      flexWrap: "wrap",
+      background: "rgba(255,255,255,0.08)",
+      padding: "18px 24px",
+      borderRadius: "16px",
+      backdropFilter: "blur(10px)",
+      border: "1px solid rgba(255,255,255,0.08)",
+      width: "fit-content",
+      maxWidth: "100%",
+    },
+
+    trustText: {
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      color: "white",
+    },
+
+    logo: {
+      height: "40px",
+      objectFit: "contain",
+      filter: "brightness(1000%)",
+    },
+
+    imageSection: {
+      position: "relative",
+      zIndex: 2,
+      flex: "1 1 450px",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minWidth: "300px",
+    },
+
+    image: {
+      width: "100%",
+      maxWidth: "700px",
+      borderRadius: "22px",
+      boxShadow:
+        "0 15px 50px rgba(0,0,0,0.45)",
+      border: "1px solid rgba(255,255,255,0.1)",
+    },
+
+    /* =========================
+       RESPONSIVE DESIGN
+    ========================= */
+
+    "@media (max-width: 1024px)": {
+      hero: {
+        padding: "70px 5%",
+        gap: "40px",
+      },
+
+      content: {
+        flex: "1 1 100%",
+      },
+
+      imageSection: {
+        flex: "1 1 100%",
+      },
+
+      image: {
+        maxWidth: "600px",
+      },
+    },
+
+    "@media (max-width: 768px)": {
+      hero: {
+        flexDirection: "column",
+        justifyContent: "center",
+        textAlign: "center",
+        padding: "120px 20px 60px",
+      },
+
+      content: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      },
+
+      paragraph: {
+        maxWidth: "100%",
+      },
+
+      trustBar: {
+        justifyContent: "center",
+      },
+
+      imageSection: {
+        width: "100%",
+      },
+
+      image: {
+        width: "100%",
+      },
+
+      logo: {
+        height: "32px",
+      },
+    },
+
+    "@media (max-width: 480px)": {
+      hero: {
+        padding: "110px 15px 50px",
+        gap: "30px",
+      },
+
+      button: {
+        width: "100%",
+        maxWidth: "300px",
+        padding: "15px 20px",
+      },
+
+      trustBar: {
+        padding: "15px",
+        gap: "18px",
+      },
+
+      trustText: {
+        width: "100%",
+      },
+
+      logo: {
+        height: "28px",
+      },
+
+      image: {
+        borderRadius: "16px",
+      },
+    },
+  };
+
+  return (
+    <>
+      <Header />
+
+      <section style={styles.hero}>
+
+        {/* VIDEO BACKGROUND */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={styles.video}
+        >
+          <source
+            src="/src/assets/vedio.mp4"
+            type="video/mp4"
+          />
+
+          Your browser does not support the video tag.
+        </video>
+
+        {/* DARK OVERLAY */}
+        <div style={styles.overlay}></div>
+
+        {/* LEFT CONTENT */}
+        <div style={styles.content}>
+
+          <h1 style={styles.heading}>
+            Convert Physical Parts to
+            <br />
+            Production-Ready CAD Models
+          </h1>
+
+          <p style={styles.paragraph}>
+            High-accuracy reverse engineering for
+            manufacturing, mining, and automotive
+            industries. Get STL to STEP/IGES
+            conversion with guaranteed accuracy.
+          </p>
+
+          <button style={styles.button}>
+            Request a Quote
+          </button>
+
+          {/* TRUST BAR */}
+          <div style={styles.trustBar}>
+
+            <span style={styles.trustText}>
+              Trusted Tools:
+            </span>
+
+            <img
+              style={styles.logo}
+              src="https://cdn.worldvectorlogo.com/logos/autodesk-2.svg"
+              alt="Autodesk"
+            />
+
+            <img
+              style={styles.logo}
+              src="https://cdn.worldvectorlogo.com/logos/solidworks-logo-1.svg"
+              alt="SolidWorks"
+            />
+
+            <img
+              style={styles.logo}
+              src="https://img.icons8.com/?size=96&id=6LuKZMwS6lAo&format=png"
+              alt="Catia"
+            />
+
+          </div>
+        </div>
+
+        {/* RIGHT IMAGE */}
+        <div style={styles.imageSection}>
+          <img
+            style={styles.image}
+            src="https://t3.ftcdn.net/jpg/18/80/05/66/240_F_1880056605_PGr07d3FIyOLWFjJmnAhIQ6IMB7BY0Fx.jpg"
+            alt="3D Scan to CAD"
+          />
+        </div>
+
+      </section>
+
+      <MainLayout />
+    </>
+  );
+}
+
+export default Hero;
