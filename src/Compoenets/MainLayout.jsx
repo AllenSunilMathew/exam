@@ -1,19 +1,43 @@
-// MainLayout.jsx
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaCogs,
   FaTools,
   FaShieldAlt,
-  FaIndustry,
-  FaCar,
-  FaBuilding,
-  FaSearch,
-  FaProjectDiagram,
-  FaCube,
 } from "react-icons/fa";
 
 function MainLayout() {
+  const [currentCard, setCurrentCard] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const features = [
+    {
+      title: 'Stop Struggling with "Dumb" Files',
+      text: "Convert unusable mesh data into editable and fully parametric CAD models.",
+      icon: <FaCogs style={{ fontSize: "2.8rem", marginBottom: "18px", color: "#00bfff" }} />,
+      bg: "linear-gradient(145deg, rgba(0,123,255,0.18), rgba(255,255,255,0.05))"
+    },
+    {
+      title: "Eliminate Downtime from Missing Prints",
+      text: "Rebuild lost or outdated engineering drawings quickly and accurately.",
+      icon: <FaTools style={{ fontSize: "2.8rem", marginBottom: "18px", color: "#00ffaa" }} />,
+      bg: "linear-gradient(145deg, rgba(0,255,170,0.15), rgba(255,255,255,0.05))"
+    },
+    {
+      title: "Zero-Fitment Risk",
+      text: "Ensure precision and compatibility with highly accurate reverse-engineered CAD geometry.",
+      icon: <FaShieldAlt style={{ fontSize: "2.8rem", marginBottom: "18px", color: "#ffb347" }} />,
+      bg: "linear-gradient(145deg, rgba(255,180,0,0.15), rgba(255,255,255,0.05))"
+    }
+  ];
+
+  useEffect(() => {
+    if (isHovered) return;
+    const interval = setInterval(() => {
+      setCurrentCard((prev) => (prev + 1) % features.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isHovered, features.length]);
+
   const styles = {
     section: {
       width: "100%",
@@ -28,33 +52,21 @@ function MainLayout() {
       fontFamily: "'Smooch Sans', sans-serif",
       boxSizing: "border-box",
       alignItems: "flex-start",
+      backgroundImage: "url('/src/assets/car.jpg')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
     },
 
-    /* VIDEO BACKGROUND */
-    video: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-
-      /* MORE VISIBLE VIDEO */
-      filter: "brightness(0.8) contrast(1.2) saturate(1.2)",
-      zIndex: -2,
-    },
-
-    /* LIGHTER OVERLAY */
     overlay: {
       position: "absolute",
       inset: 0,
-      background:
-        "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.65))",
-      zIndex: -1,
+      background: "linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75))",
+      zIndex: 0,
     },
 
     left: {
-      flex: "1 1 700px",
+      flex: "1 1 600px",
       position: "relative",
       zIndex: 2,
       minWidth: "300px",
@@ -89,26 +101,31 @@ function MainLayout() {
       fontWeight: "300",
     },
 
-    cardGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))",
-      gap: "25px",
+    // Viewport window that masks out overflowing slides
+    sliderWindow: {
+      width: "100%",
+      maxWidth: "550px",
+      overflow: "hidden",
       marginTop: "25px",
+      borderRadius: "22px",
+    },
+
+    // Horizontal filmstrip container moving based on the current active card
+    sliderTrack: {
+      display: "flex",
+      width: `${features.length * 100}%`,
+      transform: `translateX(-${(currentCard * 100) / features.length}%)`,
+      transition: "transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)",
     },
 
     card: {
-      background: "rgba(255,255,255,0.10)",
+      width: `${100 / features.length}%`,
       padding: "30px",
-      borderRadius: "22px",
+      boxSizing: "border-box",
       backdropFilter: "blur(12px)",
       border: "1px solid rgba(255,255,255,0.12)",
-      transition: "0.3s ease",
       boxShadow: "0 10px 35px rgba(0,0,0,0.25)",
-    },
-
-    icon: {
-      fontSize: "2.8rem",
-      marginBottom: "18px",
+      borderRadius: "22px",
     },
 
     cardTitle: {
@@ -116,6 +133,25 @@ function MainLayout() {
       fontWeight: "700",
       marginBottom: "15px",
       lineHeight: "1.3",
+    },
+
+    dotsContainer: {
+      display: "flex",
+      gap: "12px",
+      marginTop: "20px",
+      alignItems: "center",
+      position: "relative",
+      zIndex: 3,
+    },
+
+    dot: {
+      width: "12px",
+      height: "12px",
+      borderRadius: "50%",
+      border: "none",
+      cursor: "pointer",
+      padding: 0,
+      transition: "all 0.3s ease",
     },
 
     form: {
@@ -160,300 +196,112 @@ function MainLayout() {
       padding: "18px",
       border: "none",
       borderRadius: "14px",
-      background:
-        "linear-gradient(135deg,#007bff,#00bfff)",
+      background: "linear-gradient(135deg,#007bff,#00bfff)",
       color: "white",
       fontWeight: "700",
       fontSize: "1.1rem",
       cursor: "pointer",
-      boxShadow:
-        "0 8px 25px rgba(0,123,255,0.35)",
+      boxShadow: "0 8px 25px rgba(0,123,255,0.35)",
       transition: "0.3s ease",
     },
 
-    workflow: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "22px",
-      marginTop: "20px",
-    },
-
-    workflowCard: {
-      display: "flex",
-      alignItems: "center",
-      gap: "22px",
-      background: "rgba(255,255,255,0.08)",
-      padding: "22px",
-      borderRadius: "18px",
-      backdropFilter: "blur(10px)",
-      flexWrap: "wrap",
-    },
-
-    cta: {
-      marginTop: "80px",
-      padding: "50px 30px",
-      borderRadius: "25px",
-      background:
-        "linear-gradient(135deg,#007bff,#00bfff)",
-      textAlign: "center",
-      boxShadow:
-        "0 10px 40px rgba(0,123,255,0.3)",
-    },
-
-    ctaTitle: {
-      fontSize: "clamp(2rem, 4vw, 3rem)",
-      fontWeight: "700",
-      marginBottom: "25px",
-      lineHeight: "1.3",
-    },
-
-    /* RESPONSIVE */
     "@media (max-width: 1024px)": {
-      section: {
-        padding: "60px 5%",
-      },
-
-      form: {
-        position: "relative",
-        top: 0,
-      },
+      section: { padding: "60px 5%" },
+      form: { position: "relative", top: 0 },
     },
 
     "@media (max-width: 768px)": {
-      section: {
-        flexDirection: "column",
-        padding: "50px 20px",
-      },
-
-      left: {
-        width: "100%",
-      },
-
-      right: {
-        width: "100%",
-      },
-
-      cardGrid: {
-        gridTemplateColumns: "1fr",
-      },
-
-      workflowCard: {
-        flexDirection: "column",
-        alignItems: "flex-start",
-      },
-
-      form: {
-        padding: "25px",
-      },
-
-      cta: {
-        padding: "40px 20px",
-      },
+      section: { flexDirection: "column", padding: "50px 20px" },
+      left: { width: "100%" },
+      right: { width: "100%" },
+      form: { padding: "25px" },
     },
 
     "@media (max-width: 480px)": {
-      section: {
-        padding: "40px 15px",
-      },
-
-      card: {
-        padding: "22px",
-      },
-
-      form: {
-        padding: "22px",
-      },
-
-      input: {
-        padding: "14px",
-      },
-
-      textarea: {
-        padding: "14px",
-      },
-
-      button: {
-        padding: "16px",
-      },
+      section: { padding: "40px 15px" },
+      card: { padding: "22px" },
+      form: { padding: "22px" },
+      input: { padding: "14px" },
+      textarea: { padding: "14px" },
+      button: { padding: "16px" },
     },
   };
 
   return (
     <section style={styles.section}>
-
-      {/* VIDEO BACKGROUND */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        style={styles.video}
-      >
-        <source
-          src="/src/assets/act.mp4"
-          type="video/mp4"
-        />
-
-        Your browser does not support the video tag.
-      </video>
-
-      {/* OVERLAY */}
       <div style={styles.overlay}></div>
 
       {/* LEFT SIDE */}
       <div style={styles.left}>
-
         <h1 style={styles.h1}>
-          Scan to CAD & Reverse Engineering
-          Services in NSW
+          Scan to CAD & Reverse Engineering Services in NSW
         </h1>
 
         <p style={styles.p}>
-          We provide high-accuracy Scan-to-CAD and
-          reverse engineering solutions for industries
-          requiring production-ready digital models.
-          Convert physical components into editable CAD
-          files with exceptional precision for
-          manufacturing, repairs, redesigns, and
-          technical documentation.
+          We provide high-accuracy Scan-to-CAD and reverse engineering solutions
+          for industries requiring production-ready digital models. Convert
+          physical components into editable CAD files with exceptional precision
+          for manufacturing, repairs, redesigns, and technical documentation.
         </p>
 
-        {/* FEATURES */}
         <h2 style={styles.h2}>
-          Tailored 3D Solutions for Your Complex
-          Engineering Challenges
+          Tailored 3D Solutions for Your Complex Engineering Challenges
         </h2>
 
-        <div style={styles.cardGrid}>
-
-          {/* CARD 1 */}
-          <div
-            style={{
-              ...styles.card,
-              background:
-                "linear-gradient(145deg, rgba(0,123,255,0.18), rgba(255,255,255,0.05))",
-            }}
-          >
-            <FaCogs
-              style={{
-                ...styles.icon,
-                color: "#00bfff",
-              }}
-            />
-
-            <div style={styles.cardTitle}>
-              Stop Struggling with "Dumb" Files
-            </div>
-
-            <p style={styles.p}>
-              Convert unusable mesh data into editable
-              and fully parametric CAD models.
-            </p>
-          </div>
-
-          {/* CARD 2 */}
-          <div
-            style={{
-              ...styles.card,
-              background:
-                "linear-gradient(145deg, rgba(0,255,170,0.15), rgba(255,255,255,0.05))",
-            }}
-          >
-            <FaTools
-              style={{
-                ...styles.icon,
-                color: "#00ffaa",
-              }}
-            />
-
-            <div style={styles.cardTitle}>
-              Eliminate Downtime from Missing Prints
-            </div>
-
-            <p style={styles.p}>
-              Rebuild lost or outdated engineering
-              drawings quickly and accurately.
-            </p>
-          </div>
-
-          {/* CARD 3 */}
-          <div
-            style={{
-              ...styles.card,
-              background:
-                "linear-gradient(145deg, rgba(255,180,0,0.15), rgba(255,255,255,0.05))",
-            }}
-          >
-            <FaShieldAlt
-              style={{
-                ...styles.icon,
-                color: "#ffb347",
-              }}
-            />
-
-            <div style={styles.cardTitle}>
-              Zero-Fitment Risk
-            </div>
-
-            <p style={styles.p}>
-              Ensure precision and compatibility with
-              highly accurate reverse-engineered CAD
-              geometry.
-            </p>
+        {/* RESPONSIVE SLIDER COMPONENT */}
+        <div 
+          style={styles.sliderWindow}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div style={styles.sliderTrack}>
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                style={{
+                  ...styles.card,
+                  background: feature.bg,
+                }}
+              >
+                {feature.icon}
+                <div style={styles.cardTitle}>{feature.title}</div>
+                <p style={styles.p}>{feature.text}</p>
+              </div>
+            ))}
           </div>
         </div>
 
+        {/* RESPONSIVE NAVIGATION DOTS */}
+        <div style={styles.dotsContainer}>
+          {features.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentCard(index)}
+              style={{
+                ...styles.dot,
+                background: index === currentCard ? "#00bfff" : "rgba(255,255,255,0.3)",
+                transform: index === currentCard ? "scale(1.2)" : "scale(1)",
+                width: index === currentCard ? "24px" : "12px", // Expands the active dot into a pill shape
+                borderRadius: index === currentCard ? "6px" : "50%",
+              }}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
 
       {/* RIGHT SIDE FORM */}
       <div style={styles.right}>
         <form style={styles.form}>
-
-          <h2 style={{ marginBottom: "25px" }}>
-            Request a Quote
-          </h2>
-
-          <input
-            style={styles.input}
-            type="text"
-            placeholder="Name *"
-            required
-          />
-
-          <input
-            style={styles.input}
-            type="email"
-            placeholder="Email *"
-            required
-          />
-
-          <input
-            style={styles.input}
-            type="tel"
-            placeholder="Phone *"
-            required
-          />
-
-          <input
-            style={styles.input}
-            type="file"
-          />
-
-          <textarea
-            style={styles.textarea}
-            placeholder="Comments"
-          ></textarea>
-
-          <button
-            type="submit"
-            style={styles.button}
-          >
-            Submit
-          </button>
-
+          <h2 style={{ marginBottom: "25px" }}>Request a Quote</h2>
+          <input style={styles.input} type="text" placeholder="Name *" required />
+          <input style={styles.input} type="email" placeholder="Email *" required />
+          <input style={styles.input} type="tel" placeholder="Phone *" required />
+          <input style={styles.input} type="file" />
+          <textarea style={styles.textarea} placeholder="Comments"></textarea>
+          <button type="submit" style={styles.button}>Submit</button>
         </form>
       </div>
-
     </section>
   );
 }
