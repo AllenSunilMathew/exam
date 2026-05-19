@@ -13,28 +13,54 @@ function MainLayout() {
     {
       title: 'Stop Struggling with "Dumb" Files',
       text: "Convert unusable mesh data into editable and fully parametric CAD models.",
-      icon: <FaCogs style={{ fontSize: "2.8rem", marginBottom: "18px", color: "#00bfff" }} />,
-      bg: "linear-gradient(145deg, rgba(0,123,255,0.18), rgba(255,255,255,0.05))"
+      icon: (
+        <FaCogs
+          style={{
+            fontSize: "2.8rem",
+            marginBottom: "18px",
+            color: "#00bfff",
+          }}
+        />
+      ),
+      bg: "linear-gradient(145deg, rgba(0,123,255,0.18), rgba(255,255,255,0.05))",
     },
     {
       title: "Eliminate Downtime from Missing Prints",
       text: "Rebuild lost or outdated engineering drawings quickly and accurately.",
-      icon: <FaTools style={{ fontSize: "2.8rem", marginBottom: "18px", color: "#00ffaa" }} />,
-      bg: "linear-gradient(145deg, rgba(0,255,170,0.15), rgba(255,255,255,0.05))"
+      icon: (
+        <FaTools
+          style={{
+            fontSize: "2.8rem",
+            marginBottom: "18px",
+            color: "#00ffaa",
+          }}
+        />
+      ),
+      bg: "linear-gradient(145deg, rgba(0,255,170,0.15), rgba(255,255,255,0.05))",
     },
     {
       title: "Zero-Fitment Risk",
       text: "Ensure precision and compatibility with highly accurate reverse-engineered CAD geometry.",
-      icon: <FaShieldAlt style={{ fontSize: "2.8rem", marginBottom: "18px", color: "#ffb347" }} />,
-      bg: "linear-gradient(145deg, rgba(255,180,0,0.15), rgba(255,255,255,0.05))"
-    }
+      icon: (
+        <FaShieldAlt
+          style={{
+            fontSize: "2.8rem",
+            marginBottom: "18px",
+            color: "#ffb347",
+          }}
+        />
+      ),
+      bg: "linear-gradient(145deg, rgba(255,180,0,0.15), rgba(255,255,255,0.05))",
+    },
   ];
 
   useEffect(() => {
     if (isHovered) return;
+
     const interval = setInterval(() => {
       setCurrentCard((prev) => (prev + 1) % features.length);
     }, 4000);
+
     return () => clearInterval(interval);
   }, [isHovered, features.length]);
 
@@ -52,7 +78,8 @@ function MainLayout() {
       fontFamily: "'Smooch Sans', sans-serif",
       boxSizing: "border-box",
       alignItems: "flex-start",
-      backgroundImage: "url('https://t3.ftcdn.net/jpg/05/33/04/50/240_F_533045037_8lMPveQYe4gVEH5peMajGo4tlrpYbQuH.jpg')",
+      backgroundImage:
+        "url('https://t3.ftcdn.net/jpg/05/33/04/50/240_F_533045037_8lMPveQYe4gVEH5peMajGo4tlrpYbQuH.jpg')",
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -101,7 +128,6 @@ function MainLayout() {
       fontWeight: "300",
     },
 
-    // Viewport window that masks out overflowing slides
     sliderWindow: {
       width: "100%",
       maxWidth: "550px",
@@ -110,11 +136,12 @@ function MainLayout() {
       borderRadius: "22px",
     },
 
-    // Horizontal filmstrip container moving based on the current active card
     sliderTrack: {
       display: "flex",
       width: `${features.length * 100}%`,
-      transform: `translateX(-${(currentCard * 100) / features.length}%)`,
+      transform: `translateX(-${
+        (currentCard * 100) / features.length
+      }%)`,
       transition: "transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)",
     },
 
@@ -135,11 +162,14 @@ function MainLayout() {
       lineHeight: "1.3",
     },
 
+    /* UPDATED DOTS */
     dotsContainer: {
       display: "flex",
       gap: "12px",
       marginTop: "20px",
       alignItems: "center",
+      justifyContent: "center",
+      width: "100%",
       position: "relative",
       zIndex: 3,
     },
@@ -206,24 +236,67 @@ function MainLayout() {
     },
 
     "@media (max-width: 1024px)": {
-      section: { padding: "60px 5%" },
-      form: { position: "relative", top: 0 },
+      section: {
+        padding: "60px 5%",
+      },
+
+      form: {
+        position: "relative",
+        top: 0,
+      },
     },
 
     "@media (max-width: 768px)": {
-      section: { flexDirection: "column", padding: "50px 20px" },
-      left: { width: "100%" },
-      right: { width: "100%" },
-      form: { padding: "25px" },
+      section: {
+        flexDirection: "column",
+        padding: "50px 20px",
+      },
+
+      left: {
+        width: "100%",
+      },
+
+      right: {
+        width: "100%",
+      },
+
+      form: {
+        padding: "25px",
+      },
+
+      dotsContainer: {
+        justifyContent: "center",
+      },
     },
 
     "@media (max-width: 480px)": {
-      section: { padding: "40px 15px" },
-      card: { padding: "22px" },
-      form: { padding: "22px" },
-      input: { padding: "14px" },
-      textarea: { padding: "14px" },
-      button: { padding: "16px" },
+      section: {
+        padding: "40px 15px",
+      },
+
+      card: {
+        padding: "22px",
+      },
+
+      form: {
+        padding: "22px",
+      },
+
+      input: {
+        padding: "14px",
+      },
+
+      textarea: {
+        padding: "14px",
+      },
+
+      button: {
+        padding: "16px",
+      },
+
+      dotsContainer: {
+        justifyContent: "center",
+      },
     },
   };
 
@@ -238,18 +311,19 @@ function MainLayout() {
         </h1>
 
         <p style={styles.p}>
-          We provide high-accuracy Scan-to-CAD and reverse engineering solutions
-          for industries requiring production-ready digital models. Convert
-          physical components into editable CAD files with exceptional precision
-          for manufacturing, repairs, redesigns, and technical documentation.
+          We provide high-accuracy Scan-to-CAD and reverse engineering
+          solutions for industries requiring production-ready digital
+          models. Convert physical components into editable CAD files
+          with exceptional precision for manufacturing, repairs,
+          redesigns, and technical documentation.
         </p>
 
         <h2 style={styles.h2}>
           Tailored 3D Solutions for Your Complex Engineering Challenges
         </h2>
 
-        {/* RESPONSIVE SLIDER COMPONENT */}
-        <div 
+        {/* SLIDER */}
+        <div
           style={styles.sliderWindow}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
@@ -264,14 +338,18 @@ function MainLayout() {
                 }}
               >
                 {feature.icon}
-                <div style={styles.cardTitle}>{feature.title}</div>
+
+                <div style={styles.cardTitle}>
+                  {feature.title}
+                </div>
+
                 <p style={styles.p}>{feature.text}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* RESPONSIVE NAVIGATION DOTS */}
+        {/* DOTS */}
         <div style={styles.dotsContainer}>
           {features.map((_, index) => (
             <button
@@ -279,10 +357,25 @@ function MainLayout() {
               onClick={() => setCurrentCard(index)}
               style={{
                 ...styles.dot,
-                background: index === currentCard ? "#00bfff" : "rgba(255,255,255,0.3)",
-                transform: index === currentCard ? "scale(1.2)" : "scale(1)",
-                width: index === currentCard ? "24px" : "12px", // Expands the active dot into a pill shape
-                borderRadius: index === currentCard ? "6px" : "50%",
+                background:
+                  index === currentCard
+                    ? "#00bfff"
+                    : "rgba(255,255,255,0.3)",
+
+                transform:
+                  index === currentCard
+                    ? "scale(1.2)"
+                    : "scale(1)",
+
+                width:
+                  index === currentCard
+                    ? "24px"
+                    : "12px",
+
+                borderRadius:
+                  index === currentCard
+                    ? "6px"
+                    : "50%",
               }}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -293,13 +386,47 @@ function MainLayout() {
       {/* RIGHT SIDE FORM */}
       <div style={styles.right}>
         <form style={styles.form}>
-          <h2 style={{ marginBottom: "25px" }}>Request a Quote</h2>
-          <input style={styles.input} type="text" placeholder="Name *" required />
-          <input style={styles.input} type="email" placeholder="Email *" required />
-          <input style={styles.input} type="tel" placeholder="Phone *" required />
-          <input style={styles.input} type="file" />
-          <textarea style={styles.textarea} placeholder="Comments"></textarea>
-          <button type="submit" style={styles.button}>Submit</button>
+          <h2 style={{ marginBottom: "25px" }}>
+            Request a Quote
+          </h2>
+
+          <input
+            style={styles.input}
+            type="text"
+            placeholder="Name *"
+            required
+          />
+
+          <input
+            style={styles.input}
+            type="email"
+            placeholder="Email *"
+            required
+          />
+
+          <input
+            style={styles.input}
+            type="tel"
+            placeholder="Phone *"
+            required
+          />
+
+          <input
+            style={styles.input}
+            type="file"
+          />
+
+          <textarea
+            style={styles.textarea}
+            placeholder="Comments"
+          ></textarea>
+
+          <button
+            type="submit"
+            style={styles.button}
+          >
+            Submit
+          </button>
         </form>
       </div>
     </section>
