@@ -136,7 +136,7 @@ function Hero() {
         {/* BACKGROUND IMAGE */}
         <img
           style={styles.bgImage}
-          src="https://t4.ftcdn.net/jpg/10/82/01/31/240_F_1082013157_Et0V9T2E1Magz1mF8i6wox325zEbkFB8.jpg"
+          src="https://t4.ftcdn.net/jpg/03/17/05/79/240_F_317057918_eTRXcR7xm9prKCIoSdDVj04oWg5yINqn.jpg"
           alt="Background Visual"
         />
 
