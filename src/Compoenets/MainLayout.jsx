@@ -52,7 +52,7 @@ function MainLayout() {
       fontFamily: "'Smooch Sans', sans-serif",
       boxSizing: "border-box",
       alignItems: "flex-start",
-      backgroundImage: "url('/src/assets/car.jpg')",
+      backgroundImage: "url('https://t3.ftcdn.net/jpg/05/33/04/50/240_F_533045037_8lMPveQYe4gVEH5peMajGo4tlrpYbQuH.jpg')",
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
