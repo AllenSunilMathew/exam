@@ -7,6 +7,7 @@ import {
   FaCar, 
   FaBuilding, 
   FaChevronRight, 
+  FaChevronLeft,
   FaFileAlt 
 } from "react-icons/fa";
 
@@ -14,6 +15,14 @@ import {
 function MainLayout({ lang = "en" }) {
   const [currentCard, setCurrentCard] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+
+  // States for the Industry Slider
+  const [currentIndustryCard, setCurrentIndustryCard] = useState(0);
+  const [isIndustryHovered, setIsIndustryHovered] = useState(false);
+
+  // New states for the Process Slider
+  const [currentProcessCard, setCurrentProcessCard] = useState(0);
+  const [isProcessHovered, setIsProcessHovered] = useState(false);
 
   // Translation data dictionary
   const translations = {
@@ -76,7 +85,7 @@ function MainLayout({ lang = "en" }) {
         },
         {
           title: "गुम प्रिंटों के कारण होने वाले डाउनटाइम को खत्म करें",
-          text: "खोए हुए या पुराने इंजीनियरिंग चित्रों को तेज़ी से और सटीक रूप से फिर से तैयार करें।",
+          text: "खोए हुए या पुराने engineering चित्रों को तेज़ी से और सटीक रूप से फिर से तैयार करें।",
           bg: "linear-gradient(145deg, rgba(0,255,170,0.15), rgba(255,255,255,0.05))",
         },
         {
@@ -87,14 +96,14 @@ function MainLayout({ lang = "en" }) {
       ],
       workflowsTitle: "हर उद्योग के लिए व्यापक स्कैन-टू-कैड (Scan-to-CAD) वर्कफ़्लो",
       industries: [
-        { title: "खनन और भारी उद्योग", desc: "भारी मशीनरी घिसाव विश्लेषण, कास्टिंग री-इंजीनियरिंग और बड़े पैमाने पर संयंत्र परिसंपत्ति संशोधन।" },
+        { title: "खनन और भारी उद्योग", desc: "भारी मशीनरी घिसाव विश्लेषण, कास्टिंग री-इनियरिंग और बड़े पैमाने पर संयंत्र परिसंपत्ति संशोधन।" },
         { title: "ऑटोमोटिव और एयरोस्पेस", desc: "एयरोडायनामिक सतह मैपिंग, विरासत बहाली, और सटीक टूल टूलींग सत्यापन।" },
-        { title: "विनिर्माण", desc: "इंजेक्शन मोल्ड रिस्टोरेशन, घटक अनुकूलन, और रैपिड प्रोडक्शन लाइन कॉन्फ़िगरेशन।" },
+        { title: "विनिर्माण", desc: "इंजेक्शन मोल्ड रिस्टोरेशन, घटक अनुकूलन, और रैपिड प्रोडक्शन line कॉन्फ़िगरेशन।" },
         { title: "आर्किटेक्चर और हेरिटेज", desc: "बिल्डिंग स्कैन रूपांतरण, एसेट आर्काइविंग और ऐतिहासिक संरचनात्मक बहाली मॉडल।" },
       ],
       processTitle: "हमारी 3-चरण रिवर्स इंजीनियरिंग प्रक्रिया",
       steps: [
-        { num: "01", name: "सटीक 3D स्कैनिंग", desc: "उप-मिल्लीमीटर सटीक हार्डवेयर के साथ लाखों उच्च-घनत्व ज्यामितीय सतह मेट्रिक्स को कैप्चर करना।" },
+        { num: "01", name: "सटीक 3D स्कैनिंग", desc: "उप-मिल्लीमीटर सटीक हार्डवेयर के साथ लाखों उच्च-घनत्व ज्यामितीय सतह मेट्रिक्स को कैप्च करना।" },
         { num: "02", name: "पॉइंट क्लाउड प्रोसेसिंग", desc: "कच्चे मल्टी-स्कैन समन्वय मेट्रिसेस को निर्दोष वैश्विक मेश फ़ाइलों में संरेखित करना, साफ़ करना और मान्य करना।" },
         { num: "03", name: "पैरामीट्रिक मॉडलिंग", desc: "पूरी तरह से सुविधाओं-आधारित, उत्पादन-तैयार पैरामीट्रिक सीएडी पेड़ उत्पन्न करने के लिए ज्यामितीय इरादे को निकालना।" },
       ],
@@ -122,6 +131,16 @@ function MainLayout({ lang = "en" }) {
 
   const nativeFiles = ["SolidWorks", "Autodesk Inventor", "Solid Edge", "STEP", "IGES", "Parasolid"];
 
+  // Handlers for manual arrow navigation in Process Slider
+  const prevProcessSlide = () => {
+    setCurrentProcessCard((prev) => (prev === 0 ? currentText.steps.length - 1 : prev - 1));
+  };
+
+  const nextProcessSlide = () => {
+    setCurrentProcessCard((prev) => (prev + 1) % currentText.steps.length);
+  };
+
+  // Effect for top Feature Slider
   useEffect(() => {
     if (isHovered) return;
     const interval = setInterval(() => {
@@ -129,6 +148,24 @@ function MainLayout({ lang = "en" }) {
     }, 4000);
     return () => clearInterval(interval);
   }, [isHovered, currentText.features.length]);
+
+  // Effect for Industry Slider
+  useEffect(() => {
+    if (isIndustryHovered) return;
+    const interval = setInterval(() => {
+      setCurrentIndustryCard((prev) => (prev + 1) % currentText.industries.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isIndustryHovered, currentText.industries.length]);
+
+  // Effect for Process Slider
+  useEffect(() => {
+    if (isProcessHovered) return;
+    const interval = setInterval(() => {
+      setCurrentProcessCard((prev) => (prev + 1) % currentText.steps.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [isProcessHovered, currentText.steps.length]);
 
   return (
     <section className="main-layout-section">
@@ -207,7 +244,7 @@ function MainLayout({ lang = "en" }) {
             <form className="quote-form" onSubmit={(e) => e.preventDefault()}>
               <h2 className={`form-title ${lang !== "en" ? "native-font" : ""}`} style={{ marginBottom: "25px" }}>
                 {currentText.formTitle}
-              </h2>
+              </h2> 
 
               <input className="form-input" type="text" placeholder={currentText.inputName} required />
               <input className="form-input" type="email" placeholder={currentText.inputEmail} required />
@@ -225,30 +262,119 @@ function MainLayout({ lang = "en" }) {
         {/* SECTION: SCAN-TO-CAD WORKFLOWS FOR INDUSTRIES */}
         <div className="content-block-section">
           <h2 className="section-global-h2">{currentText.workflowsTitle}</h2>
-          <div className="industry-grid">
-            {currentText.industries.map((item, index) => (
-              <div key={index} className="industry-card">
-                <div className="industry-icon-wrapper">{industryIcons[index]}</div>
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
-              </div>
+          
+          <div 
+            className="industry-slider-window"
+            onMouseEnter={() => setIsIndustryHovered(true)}
+            onMouseLeave={() => setIsIndustryHovered(false)}
+          >
+            <div 
+              className="industry-slider-track"
+              style={{
+                width: `${currentText.industries.length * 100}%`,
+                transform: `translateX(-${(currentIndustryCard * 100) / currentText.industries.length}%)`
+              }}
+            >
+              {currentText.industries.map((item, index) => (
+                <div 
+                  key={index} 
+                  className="industry-card-slide"
+                  style={{ width: `${100 / currentText.industries.length}%` }}
+                >
+                  <div className="industry-card-internal">
+                    <div className="industry-icon-wrapper">{industryIcons[index]}</div>
+                    <h3>{item.title}</h3>
+                    <p>{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* INDUSTRY SLIDER DOTS */}
+          <div className="industry-dots-container">
+            {currentText.industries.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndustryCard(index)}
+                className={`layout-dot ${index === currentIndustryCard ? "active" : ""}`}
+                style={{
+                  width: index === currentIndustryCard ? "24px" : "12px",
+                  borderRadius: index === currentIndustryCard ? "6px" : "50%",
+                }}
+                aria-label={`Go to industry slide ${index + 1}`}
+              />
             ))}
           </div>
         </div>
 
-        {/* SECTION: 3-STEP REVERSE ENGINEERING PROCESS */}
+        {/* SECTION: 3-STEP REVERSE ENGINEERING PROCESS (CONVERTED TO SLIDER MODEL WITH CONTROLS) */}
         <div className="content-block-section">
           <h2 className="section-global-h2">{currentText.processTitle}</h2>
-          <div className="process-flow-row">
-            {currentText.steps.map((step, index) => (
-              <div key={index} className="process-step-node">
-                <div className="process-badge-header">
-                  <span className="step-number">{step.num}</span>
-                  {index < 2 && <FaChevronRight className="step-arrow-icon" />}
-                </div>
-                <h3>{step.name}</h3>
-                <p>{step.desc}</p>
+          
+          <div className="process-slider-outer-wrap">
+            {/* Left Controller Arrow */}
+            <button 
+              className="process-slider-arrow arrow-left" 
+              onClick={prevProcessSlide}
+              aria-label="Previous Process Step"
+            >
+              <FaChevronLeft />
+            </button>
+
+            <div 
+              className="process-slider-window"
+              onMouseEnter={() => setIsProcessHovered(true)}
+              onMouseLeave={() => setIsProcessHovered(false)}
+            >
+              <div 
+                className="process-slider-track"
+                style={{
+                  width: `${currentText.steps.length * 100}%`,
+                  transform: `translateX(-${(currentProcessCard * 100) / currentText.steps.length}%)`
+                }}
+              >
+                {currentText.steps.map((step, index) => (
+                  <div 
+                    key={index} 
+                    className="process-card-slide"
+                    style={{ width: `${100 / currentText.steps.length}%` }}
+                  >
+                    <div className="process-step-node-internal">
+                      <div className="process-badge-header">
+                        <span className="step-number">{step.num}</span>
+                      </div>
+                      <h3>{step.name}</h3>
+                      <p>{step.desc}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
+            </div>
+
+            {/* Right Controller Arrow */}
+            <button 
+              className="process-slider-arrow arrow-right" 
+              onClick={nextProcessSlide}
+              aria-label="Next Process Step"
+            >
+              <FaChevronRight />
+            </button>
+          </div>
+
+          {/* PROCESS SLIDER DOTS */}
+          <div className="process-dots-container">
+            {currentText.steps.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentProcessCard(index)}
+                className={`layout-dot ${index === currentProcessCard ? "active" : ""}`}
+                style={{
+                  width: index === currentProcessCard ? "24px" : "12px",
+                  borderRadius: index === currentProcessCard ? "6px" : "50%",
+                }}
+                aria-label={`Go to process slide ${index + 1}`}
+              />
             ))}
           </div>
         </div>
@@ -285,18 +411,15 @@ function MainLayout({ lang = "en" }) {
           position: relative;
           overflow: hidden;
           color: white;
-          font-family: 'Smooch Sans', sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
           box-sizing: border-box;
-          background-image: url('https://t3.ftcdn.net/jpg/05/33/04/50/240_F_533045037_8lMPveQYe4gVEH5peMajGo4tlrpYbQuH.jpg');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
+          background-color: #0b1320;
         }
 
         .layout-overlay {
           position: absolute;
           inset: 0;
-          background: linear-gradient(rgba(0,0,0,0.82), rgba(11,19,32,0.95));
+          background: radial-gradient(circle at 50% 30%, rgba(16, 28, 48, 0.4) 0%, #080d16 100%);
           z-index: 0;
         }
 
@@ -331,6 +454,7 @@ function MainLayout({ lang = "en" }) {
           margin-bottom: 25px;
           font-weight: 700;
           line-height: 1.2;
+          letter-spacing: -0.02em;
         }
 
         .layout-h2 {
@@ -345,33 +469,32 @@ function MainLayout({ lang = "en" }) {
         .section-global-h2 {
           font-size: clamp(1.8rem, 3vw, 2.4rem);
           font-weight: 700;
-          margin-bottom: 35px;
+          margin-bottom: 45px;
           text-align: center;
-          line-height: 1.3;
-          letter-spacing: 0.5px;
+          line-height: 1.2;
+          letter-spacing: -0.01em;
+          color: #ffffff;
         }
 
         .layout-p {
           color: #e2e8f0;
           line-height: 1.7;
           font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-          font-weight: 300;
-          font-family: sans-serif;
+          font-weight: 400;
         }
 
         .native-font {
-          font-family: sans-serif !important;
           letter-spacing: 0px !important;
           line-height: 1.4 !important;
         }
 
-        /* Slider Structures */
+        /* Top Slider Configurations */
         .layout-slider-window {
           width: 100%;
           max-width: 550px;
           overflow: hidden;
           margin-top: 25px;
-          border-radius: 22px;
+          border-radius: 24px;
         }
 
         .layout-slider-track {
@@ -380,20 +503,23 @@ function MainLayout({ lang = "en" }) {
         }
 
         .layout-card {
-          padding: 30px;
+          padding: 35px 30px;
           box-sizing: border-box;
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255,255,255,0.1);
-          box-shadow: 0 10px 35px rgba(0,0,0,0.25);
-          border-radius: 22px;
+          background: rgba(255, 255, 255, 0.02) !important;
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+          border-radius: 24px;
         }
 
         .layout-card-title {
-          font-size: 1.4rem;
+          font-size: 1.5rem;
           font-weight: 700;
           margin-bottom: 15px;
           line-height: 1.3;
+          color: #ffffff;
+          letter-spacing: -0.01em;
         }
 
         .layout-dots-container {
@@ -404,6 +530,178 @@ function MainLayout({ lang = "en" }) {
           justify-content: flex-start;
           width: 100%;
           max-width: 550px;
+        }
+
+        /* Industry Slider Structures */
+        .industry-slider-window {
+          width: 100%;
+          max-width: 700px;
+          margin: 0 auto;
+          overflow: hidden;
+          border-radius: 24px;
+        }
+
+        .industry-slider-track {
+          display: flex;
+          transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .industry-card-slide {
+          box-sizing: border-box;
+          padding: 10px;
+        }
+
+        .industry-card-internal {
+          background: rgba(255, 255, 255, 0.02);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+          border-radius: 24px;
+          padding: 40px 35px;
+          text-align: center;
+          min-height: 250px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .industry-icon-wrapper {
+          margin-bottom: 24px;
+          display: inline-flex;
+        }
+
+        .industry-card-internal h3 {
+          font-size: 1.6rem;
+          font-weight: 700;
+          margin-bottom: 14px;
+          color: #ffffff;
+          letter-spacing: -0.01em;
+        }
+
+        .industry-card-internal p {
+          color: #94a3b8;
+          font-size: 1.05rem;
+          line-height: 1.6;
+          font-weight: 400;
+          max-width: 500px;
+        }
+
+        .industry-dots-container {
+          display: flex;
+          gap: 10px;
+          margin-top: 25px;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+        }
+
+        /* 3-Step Process Slider UI Design Layout */
+        .process-slider-outer-wrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          width: 100%;
+          max-width: 750px;
+          margin: 0 auto;
+          gap: 20px;
+        }
+
+        .process-slider-window {
+          width: 100%;
+          overflow: hidden;
+          border-radius: 24px;
+        }
+
+        .process-slider-track {
+          display: flex;
+          transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .process-card-slide {
+          box-sizing: border-box;
+          padding: 10px;
+        }
+
+        .process-step-node-internal {
+          background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 100%);
+          border: 1px solid rgba(255,255,255,0.12);
+          box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+          padding: 40px 35px;
+          border-radius: 24px;
+          text-align: center;
+          min-height: 240px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .process-badge-header {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 22px;
+        }
+
+        .step-number {
+          font-size: 2rem;
+          font-weight: 800;
+          color: #00ffaa;
+          background: rgba(0, 255, 170, 0.1);
+          padding: 4px 18px;
+          border-radius: 12px;
+        }
+
+        .process-step-node-internal h3 {
+          font-size: 1.6rem;
+          font-weight: 700;
+          margin-bottom: 14px;
+          color: #ffffff;
+        }
+
+        .process-step-node-internal p {
+          color: #cbd5e1;
+          font-size: 1.05rem;
+          line-height: 1.6;
+          max-width: 520px;
+        }
+
+        /* Directional Control Chevron Buttons */
+        .process-slider-arrow {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          color: white;
+          width: 46px;
+          height: 46px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          font-size: 1.1rem;
+          transition: all 0.25s ease;
+          z-index: 5;
+          flex-shrink: 0;
+        }
+
+        .process-slider-arrow:hover {
+          background: #00bfff;
+          color: #080d16;
+          border-color: #00bfff;
+          box-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
+          transform: scale(1.05);
+        }
+
+        .process-dots-container {
+          display: flex;
+          gap: 10px;
+          margin-top: 25px;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
         }
 
         .layout-dot {
@@ -449,7 +747,6 @@ function MainLayout({ lang = "en" }) {
           box-sizing: border-box;
           background: rgba(255, 255, 255, 0.95);
           color: #1e293b;
-          font-family: sans-serif;
         }
 
         .file-input {
@@ -477,7 +774,6 @@ function MainLayout({ lang = "en" }) {
           cursor: pointer;
           box-shadow: 0 8px 25px rgba(0,123,255,0.25);
           transition: all 0.3s ease;
-          font-family: sans-serif;
         }
 
         .form-submit-btn:hover {
@@ -485,101 +781,12 @@ function MainLayout({ lang = "en" }) {
           box-shadow: 0 12px 30px rgba(0,123,255,0.4);
         }
 
-        /* NEW WORKFLOW SECTIONS UNIQUE DESIGNS */
         .content-block-section {
           margin-top: 90px;
           width: 100%;
         }
 
-        .industry-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-          gap: 25px;
-        }
-
-        .industry-card {
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 20px;
-          padding: 30px;
-          transition: transform 0.3s ease, background 0.3s ease;
-        }
-
-        .industry-card:hover {
-          transform: translateY(-5px);
-          background: rgba(255,255,255,0.08);
-        }
-
-        .industry-icon-wrapper {
-          margin-bottom: 20px;
-        }
-
-        .industry-card h3 {
-          font-size: 1.4rem;
-          font-weight: 700;
-          margin-bottom: 12px;
-        }
-
-        .industry-card p {
-          font-family: sans-serif;
-          color: #cbd5e1;
-          font-size: 0.95rem;
-          line-height: 1.6;
-        }
-
-        /* 3-STEP PROCESS TIMELINE DESIGNS */
-        .process-flow-row {
-          display: flex;
-          flex-direction: row;
-          gap: 30px;
-          justify-content: space-between;
-          flex-wrap: wrap;
-        }
-
-        .process-step-node {
-          flex: 1 1 280px;
-          background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
-          padding: 30px;
-          border-radius: 20px;
-          border: 1px solid rgba(255,255,255,0.06);
-          position: relative;
-        }
-
-        .process-badge-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 20px;
-        }
-
-        .step-number {
-          font-size: 2rem;
-          font-weight: 800;
-          color: #00ffaa;
-          background: rgba(0, 255, 170, 0.1);
-          padding: 2px 14px;
-          border-radius: 10px;
-        }
-
-        .step-arrow-icon {
-          color: rgba(255,255,255,0.2);
-          font-size: 1.3rem;
-        }
-
-        .process-step-node h3 {
-          font-size: 1.4rem;
-          font-weight: 700;
-          margin-bottom: 12px;
-        }
-
-        .process-step-node p {
-          font-family: sans-serif;
-          color: #cbd5e1;
-          font-size: 0.95rem;
-          line-height: 1.6;
-        }
-
-        /* EXTENDED FILE TAG CLOUDS */
+        /* Extended File Tag Cloud Layouts */
         .file-compatibility-wrap {
           background: rgba(255, 255, 255, 0.03);
           border-radius: 20px;
@@ -600,7 +807,6 @@ function MainLayout({ lang = "en" }) {
           background: rgba(255,255,255,0.08);
           padding: 10px 20px;
           border-radius: 50px;
-          font-family: sans-serif;
           font-weight: 600;
           font-size: 1rem;
           display: inline-flex;
@@ -608,7 +814,7 @@ function MainLayout({ lang = "en" }) {
           border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* CALL TO ACTION ACCENT BANNER */
+        /* Call To Action Banner Accent UI */
         .cta-action-banner {
           margin-top: 90px;
           background: linear-gradient(135deg, #0052d4 0%, #4364f7 50%, #6fb1fc 100%);
@@ -634,7 +840,6 @@ function MainLayout({ lang = "en" }) {
           font-weight: 700;
           border-radius: 14px;
           cursor: pointer;
-          font-family: sans-serif;
           box-shadow: 0 4px 15px rgba(0,0,0,0.15);
           transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
@@ -644,9 +849,7 @@ function MainLayout({ lang = "en" }) {
           box-shadow: 0 6px 20px rgba(0,0,0,0.25);
         }
 
-        /* ===================================================
-            MEDIA QUERY BREAKPOINTS
-           =================================================== */
+        /* Responsive Breakpoints Rules */
         @media (max-width: 1100px) {
           .hero-split-row {
             gap: 40px;
@@ -671,8 +874,16 @@ function MainLayout({ lang = "en" }) {
           .layout-dots-container {
             justify-content: center;
           }
-          .step-arrow-icon {
-            display: none;
+        }
+
+        @media (max-width: 600px) {
+          .process-slider-outer-wrap {
+            gap: 8px;
+          }
+          .process-slider-arrow {
+            width: 38px;
+            height: 38px;
+            font-size: 0.95rem;
           }
         }
 
@@ -680,7 +891,7 @@ function MainLayout({ lang = "en" }) {
           .main-layout-section {
             padding: 50px 0;
           }
-          .quote-form, .layout-card, .industry-card, .process-step-node, .file-compatibility-wrap {
+          .quote-form, .layout-card, .industry-card-internal, .process-step-node-internal, .file-compatibility-wrap {
             padding: 22px;
             border-radius: 18px;
           }
